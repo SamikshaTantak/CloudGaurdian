@@ -51,3 +51,35 @@ if (jQuery().quicksand) {
 }//if quicksand
 
 });
+
+const form = document.getElementById('registration-form');
+
+form.addEventListener('submit', (e) => {
+	e.preventDefault();
+
+	const username = document.getElementById('username').value;
+	const email = document.getElementById('email').value;
+	const password = document.getElementById('password').value;
+	const confirmPassword = document.getElementById('confirmpassword').value;
+
+	if (password !== confirmPassword) {
+		alert('Passwords do not match');
+		return;
+	}
+
+	const xhr = new XMLHttpRequest();
+	xhr.open('POST', 'http://localhost:3000', true);
+	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+	const formData = `username=${username}&email=${email}&password=${password}`;
+
+	xhr.send(formData);
+
+	xhr.onload = function() {
+		if (xhr.status === 200) {
+			alert('Registration successful!');
+		} else {
+			alert('Error: ' + xhr.statusText);
+		}
+	};
+});
